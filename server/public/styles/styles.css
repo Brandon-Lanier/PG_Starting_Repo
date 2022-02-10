@@ -6,3 +6,8 @@ body{
     border-collapse: collapse;
     padding: 10px;
 }
+
+inputs {
+    background-color: purle;
+}
+

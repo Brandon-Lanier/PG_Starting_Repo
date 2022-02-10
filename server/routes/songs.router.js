@@ -45,7 +45,7 @@ let songs = [
 router.get('/', (req, res) => {
     // Grab a value from request url
    // check SQL query text in Postico first!
-   let queryText = 'SELECT * FROM "songs";'; //no quotes needed on id param
+   let queryText = 'SELECT * FROM "songs" ORDER BY "rank";'; //no quotes needed on id param
    // the second array argument is optional
    // and is used when we have sanitized parameters to queryText
    pool.query(queryText).then((result) => {
