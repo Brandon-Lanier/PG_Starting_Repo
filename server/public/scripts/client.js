@@ -3,8 +3,33 @@ $(document).ready(onReady);
 function onReady() {
     getSongs();
     $('#add').on('click', postSong);
-    $('#songsTableBody').on('click', '.btn-delete', deleteSong)
+    $('#songsTableBody').on('click', '.btn-delete', deleteSong);
+    $('#songsTableBody').on('click', '.btn-vote', voteSong);
 }
+
+
+function voteSong() {
+    console.log('clicked vote');
+    let id = $(this).closest('tr').data().id;
+    console.log(id);
+    let direction = $(this).text().toLowerCase();
+    console.log(direction);
+    $.ajax({
+        method: 'PUT',
+        url: `/songs/${id}`,
+        data: {
+            direction: direction
+        }
+    }).then(function(response) {
+        getSongs();
+    }).catch(function(er) {
+        console.log(err);
+        
+    })
+    
+
+}
+
 
 // get artist data from the server
 function getSongs() {
@@ -19,10 +44,13 @@ function getSongs() {
         // append data to the DOM
         for (let i = 0; i < response.length; i++) {
             $('#songsTableBody').append(`
-                <tr>
+                <tr data-id=${response[i].id}>
                     <td>${response[i].artist}</td>
                     <td>${response[i].track}</td>
-                    <td>${response[i].rank}</td>
+                    <td>${response[i].rank}
+                        <button class="btn-vote">UP</button>
+                        <button class="btn-vote">DOWN</button>
+                    </td>
                     <td>${response[i].published}</td>
                     <td><button class="btn-delete" data-id=${response[i].id}>Delete</button></td>
                 </tr>
